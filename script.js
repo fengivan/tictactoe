@@ -2,12 +2,19 @@ const container = document.getElementById("container");
 let grid = makegrid();
 let currentplayer=true;
 let gameover=false;
+let xscore=0;
+let oscore=0;
+let ties=0;
 
 function clicked()
 {
-    this.classList.add('mousedown');
-    if(this.innerHTML==""&& !gameover)
+    if(gameover)
     {
+        clear();
+    }
+    else if(this.innerHTML=="")
+    {
+        this.classList.add('mousedown');
         if(currentplayer)
             this.innerHTML="X";
         else
@@ -36,30 +43,36 @@ function checkwin()
         if(grid[a].innerHTML!="")
             sum++;
     }
-    
-
     for(var a=0; a<win.length; a++)
     {
         if(xgrid[win[a][0]]+xgrid[win[a][1]]+xgrid[win[a][2]]==3)
             {
-                window.alert("Winner is X");
-                clear();
+                xscore++;
+                document.getElementById("xscore").innerHTML="X: "+xscore;
+                document.getElementById("xscore").classList.add("gameover");
+                grid.forEach(key => key.classList.add("gameover"));
+                gameover=true;
                 return;
             }
         if(ogrid[win[a][0]]+ogrid[win[a][1]]+ogrid[win[a][2]]==3)
             {
-                window.alert("Winner is O");
-                clear();
+                oscore++;
+                document.getElementById("oscore").innerHTML="O: "+oscore;
+                grid.forEach(key => key.classList.add("gameover"));
+                document.getElementById("oscore").classList.add("gameover");
+                gameover=true;
                 return;
             }
     }
     if(sum==9)
         {
-            window.alert("It's a tie!");
-            clear();
+            ties++;
+            document.getElementById("ties").innerHTML="Ties: "+ties;
+            grid.forEach(key => key.classList.add("gameover"));
+            document.getElementById("ties").classList.add("gameover");
+            gameover=true;
         }
 }
-
 
 function makegrid()
 {
@@ -79,7 +92,14 @@ function makegrid()
 function clear()
 {
     for(var a=0; a<grid.length; a++)
+    {
+        grid[a].classList.remove("gameover");
         grid[a].innerHTML="";
+    }
+    document.getElementById("xscore").classList.remove("gameover");
+    document.getElementById("oscore").classList.remove("gameover");
+    document.getElementById("ties").classList.remove("gameover");
+
     currentplayer=true;
     gameover=false;
 }
