@@ -9,9 +9,14 @@
 }
 .square
 {
-    background-color:grey;
+    background-color:rgb(161, 159, 159);
     border-style:solid;
     font-size:10em;
     text-align:center;
+
 }
 
+.mousedown
+{
+    background-color:rgb(153, 151, 151);
+}
