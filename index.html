@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+    <header> 
+        <meta charset = "UTF-8">
+        <Title> Tic Tac Toe</Title>
+        <link rel = "stylesheet" href="style.css">
+        <style>
+            #container
+            {
+                display:grid;
+                grid-gap: 1em;
+                grid-template-columns: 1fr 1fr 1fr;
+                grid-template-rows: 1fr 1fr 1fr;
+                height:35vw;
+                width: 50%;
+            }
+            .square
+            {
+                background-color:grey;
+                border-style:solid;
+                font-size:10em;
+                text-align:center;
+            }
+
+        </style>
+    </header>
+
+<body>
+<div id = "container">
+
+
+</div>
+
+
+
+
+</body>
+
+<script>
+    const container = document.getElementById("container");
+    let grid = makegrid();
+    
+
+
+
+    
+
+
+
+
+
+
+    
+
+    function clicked()
+    {
+        this.innerHTML="X";
+        console.log("click");
+        if(checkstatus())
+        {
+            console.log("winner");
+        }
+    }
+
+    
+    function checkstatus()
+    {
+        return true;
+    }
+
+
+    function makegrid()
+    {
+        let temp=[];
+        for(var x=0; x<9; x++)
+        {
+            console.log("running");
+            let box = document.createElement("div");
+            box.className="square";
+            box.addEventListener('mousedown', clicked);
+            container.appendChild(box);
+            temp.push(box);
+        }
+        return temp;
+    }
+
+</script>
+
+
+
+</html>
