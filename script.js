@@ -10,18 +10,11 @@ let ties=0;
 document.getElementsByClassName("pvp")[0].addEventListener("click", function(){ai=false; clear();});
 document.getElementsByClassName("ai")[0].addEventListener("click", function(){ai=true; clear();});
 
-let ivan=[100,100,1,
-        1,-1,-1,
-        -1,100,-1];
-getbestmove(ivan,-1);
-
-function clicked()
+function clicked()                          //on click, clear the board if the game is over. if not, and click is valid, mark click and run ai if ai is true;
 {
-    
     if(gameover)
-    {
         clear();
-    }
+    
     else if(this.innerHTML=="")
     {
         this.classList.add('mousedown');
@@ -34,19 +27,16 @@ function clicked()
         checkwin();
         if(ai && !gameover)
         {
-            
             runai();
             checkwin();   
         }
-        
-
     }
 }
 
-function checkwin()
+function checkwin()                         //checks the status of the game, if the game is over add css effects and changes the score
 {
     let status=endpos(getgrid());
-    if(status==0)                                                           //returns if the game is over or not. 1 is x wins, -1 for o win, 100 for tie, 0 for game not over
+    if(status==0)                                                           
         return;                           
 
     if(status==1)
@@ -56,7 +46,6 @@ function checkwin()
         document.getElementById("xscore").classList.add("gameover");
         grid.forEach(key => key.classList.add("gameover"));
         gameover=true;
-        return "x";
     }    
 
     if(status==-1)
@@ -66,7 +55,6 @@ function checkwin()
         grid.forEach(key => key.classList.add("gameover"));
         document.getElementById("oscore").classList.add("gameover");
         gameover=true;
-        return "O";
     }
     if(status==100)
     {
@@ -75,11 +63,10 @@ function checkwin()
         grid.forEach(key => key.classList.add("gameover"));
         document.getElementById("ties").classList.add("gameover");
         gameover=true;
-        return "tie";
     }
 }
 
-function makegrid()
+function makegrid()                         //makes the 3x3 grid
 {
     let temp=[];
     for(var x=0; x<9; x++)
@@ -94,7 +81,7 @@ function makegrid()
     return temp;
 }
 
-function clear()
+function clear()                            //clears the board for a new game
 {
     for(var a=0; a<grid.length; a++)
     {
@@ -120,12 +107,12 @@ function clear()
         
     }
 }
-function rmcolor()
+function rmcolor()                          //removes color from clicking
 {
     this.classList.remove('mousedown');
 }
 
-function runai()
+function runai()                            //runs the ai and adds the ai's move to the grid
 {
     let player=0;
     if(currentmarker=="X")
@@ -140,14 +127,11 @@ function runai()
     }
     
     let move=getbestmove(getgrid(),player);
-
-    console.log(move);
-
     grid[move].innerHTML=currentmarker;
     grid[move].classList.add("fade");
 }
 
-function getgrid()//returns a numerical grid with 1 for x, -1 for o, and 100 for empty spots
+function getgrid()                          //returns a numerical grid with 1 for x, -1 for o, and 100 for empty spots
 {
     let temp=[];
     for(var x=0; x<grid.length; x++)
@@ -162,56 +146,52 @@ function getgrid()//returns a numerical grid with 1 for x, -1 for o, and 100 for
     return temp;
 }
 
+function getbestmove(board, p)              //returns the position of the best move for player p
+{                 
+    let possiblemoves=[];                                   //list of possible moves with equal value of bestsofar
+    let bestsofar=0;                                        //value of the best move so far
+    if(p==1)
+        bestsofar=-Infinity;    
+    else    
+        bestsofar=Infinity;
 
-function getbestmove(board, p)  //returns the position of the best move for player p
-{
-    let g=board;
-    let possiblemoves=[];
-    let possiblevalues=[];
-    for(var x=0; x<g.length; x++)
-    {
-        if(g[x]==100)
+    for(var x=0; x<board.length; x++)                           //find every empty spot on the board, insert player p into it, and check the value of the new board.
+    {                                                           //get a list of the best board positions
+        if(board[x]==100)//empty spot   
         {
-            let temp=Array.from(board);
-            temp[x]=p;
-            possiblevalues.push(value(temp, p*-1, 0));
-            possiblemoves.push(x);
-        }
-    }
-    console.log(possiblemoves);
-    console.log(possiblevalues);
-    if(possiblemoves.length==9)
-        return parseInt(Math.random()*9);
-
-    let bestmove=0;
-    let bestmovepos=0;
-
-    for(var x=0; x<possiblemoves.length; x++)
-    {
-        if(p==1)
-        {
-            bestmove=-1;
-            if(possiblevalues[x]>bestmove)
+            let nextboard=Array.from(board);//clone board
+            nextboard[x]=p;//insert p into cloned board
+            let val=value(nextboard, p*-1, 0);
+            if(p==-1)
             {
-                bestmove=possiblevalues[x];
-                bestmovepos=possiblemoves[x];
+                if(val<bestsofar)
+                {
+                    possiblemoves=[x];
+                    bestsofar=val;
+                }
+                else if(val==bestsofar)
+                {
+                    possiblemoves.push(x);
+                }
             }
-        }
-        if(p==-1)
-        {
-            bestmove=1;
-            if(possiblevalues[x]<bestmove)
+            if(p==1)
             {
-                bestmove=possiblevalues[x];
-                bestmovepos=possiblemoves[x];
+                if(val>bestsofar)
+                {
+                    possiblemoves=[x];
+                    bestsofar=val;
+                }
+                else if(val==bestsofar)
+                {
+                    possiblemoves.push(x);
+                }
             }
         }
     }
-    
-    return bestmovepos;
+    return possiblemoves[parseInt(Math.random()*possiblemoves.length)];         //returns any of the possible equally valued moves
 }
 
-function value(board, p, depth) ///returns the best value of the board if it's player p's move; value of 1 is x winning, -1 is x losing, and 0 is a tie.
+function value(board, p, depth)             ///returns the best value of the board if it's player p's move; value of 1 is x winning, -1 is x losing, and 0 is a tie.
 {                                                                                           //value is defined as 1 for x winning, -1 for o winning, 0 for tie
     let result=endpos(board);//1 is x wins, -1 for o win, 100 for tie, 0 for game not over
     if(result!=0)    //if the game IS over (win or tie condition)
@@ -253,23 +233,23 @@ function value(board, p, depth) ///returns the best value of the board if it's p
     }
 }
 
-function endpos(board)//returns if the game is over or not. 1 is x wins, -1 for o win, 100 for tie, 0 for game not over
+function endpos(board)                      //returns if the game is over or not. 1 is x wins, -1 for o win, 100 for tie, 0 for game not over
 {
     let win=[[0,1,2],[3,4,5],[6,7,8],[0,3,6],[1,4,7],[2,5,8],[0,4,8],[2,4,6]];
     let sum=0;
     
     for(var a=0; a<win.length; a++)
         if(board[win[a][0]]+board[win[a][1]]+board[win[a][2]]==3)
-            return 1
+            return 1                    
         else if(board[win[a][0]]+board[win[a][1]]+board[win[a][2]]==-3)
             return -1
 
     for(var a=0; a<board.length; a++)
         sum+=board[a];
 
-    if(sum<90)
+    if(sum<90)          //no 100(empty spot) on the board
         return 100;
 
-    return 0;
+    return 0;           //game not over yet
 }
 
