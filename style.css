@@ -16,7 +16,7 @@
     width: 50%;
     background-color: gray;
     font-size:2em;
-    
+    margin-bottom: 1em;
 }
 .square
 {
@@ -24,7 +24,6 @@
     border-style:solid;
     font-size:10em;
     text-align:center;
-
 }
 .gameover
 {
@@ -35,3 +34,69 @@
 {
     background-color:rgb(153, 151, 151);
 }
+
+.fade {
+    animation: fadeIn ease 2s;
+    -webkit-animation: fadeIn ease 2s;
+    -moz-animation: fadeIn ease 2s;
+    -o-animation: fadeIn ease 2s;
+    -ms-animation: fadeIn ease 2s;
+  }@keyframes fadeIn {
+    0%{
+        opacity:.75
+    }
+    50% {
+      opacity:0.75;
+    }
+    100% {
+      opacity:1;
+    }
+  }
+  
+  @-moz-keyframes fadeIn {
+    0%{
+        opacity:.75
+    }
+    50% {
+      opacity:0.75;
+    }
+    100% {
+      opacity:1;
+    }
+  }
+  
+  @-webkit-keyframes fadeIn {
+    0%{
+        opacity:.75
+    }
+    50% {
+      opacity:0.75;
+    }
+    100% {
+      opacity:1;
+    }
+  }
+  
+  @-o-keyframes fadeIn {
+    0%{
+        opacity:.75
+    }
+    50% {
+      opacity:0.75;
+    }
+    100% {
+      opacity:1;
+    }
+  }
+  
+  @-ms-keyframes fadeIn {
+    0%{
+        opacity:.75
+    }
+    50% {
+      opacity:0.75;
+    }
+    100% {
+      opacity:1;
+    }
+  }

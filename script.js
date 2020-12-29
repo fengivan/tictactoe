@@ -1,10 +1,20 @@
 const container = document.getElementById("container");
+
+
 let grid = makegrid();
-let currentplayer=true;
+//let player1={turn:"true", marker:"X"};
+//let player2={turn:"false", marker:"O"};
+
+let currentmarker="X"; //if current player is X or not
+let ai=false;
 let gameover=false;
 let xscore=0;
 let oscore=0;
 let ties=0;
+document.getElementsByClassName("pvp")[0].addEventListener("click", function(){ai=false; clear();});
+document.getElementsByClassName("ai")[0].addEventListener("click", function(){ai=true; clear(); runai();});
+
+
 
 function clicked()
 {
@@ -15,12 +25,19 @@ function clicked()
     else if(this.innerHTML=="")
     {
         this.classList.add('mousedown');
-        if(currentplayer)
-            this.innerHTML="X";
+        
+        this.innerHTML=currentmarker;
+        if(currentmarker=="X")
+            currentmarker="O";
         else
-            this.innerHTML="O";
-        currentplayer=!currentplayer;
+            currentmarker="X";
+
         checkwin();
+        if(ai && !gameover)
+        {
+            runai();
+            checkwin();   
+        }
     }
 }
 
@@ -94,6 +111,7 @@ function clear()
     for(var a=0; a<grid.length; a++)
     {
         grid[a].classList.remove("gameover");
+        grid[a].classList.remove("fade");
         grid[a].innerHTML="";
     }
     document.getElementById("xscore").classList.remove("gameover");
@@ -106,4 +124,22 @@ function clear()
 function rmcolor()
 {
     this.classList.remove('mousedown');
+}
+
+function runai()
+{
+    console.log("running ai");
+    let emptyspots=[];
+    for(var x=0; x<grid.length; x++)
+    {
+        if(grid[x].innerHTML=="")
+            emptyspots.push(x);
+    }
+    let temp=emptyspots[parseInt(Math.random()*emptyspots.length)];
+    grid[temp].innerHTML=currentmarker;
+    grid[temp].classList.add("fade");
+    if(currentmarker=="X")
+        currentmarker="O";
+    else    
+        currentmarker="X";
 }
