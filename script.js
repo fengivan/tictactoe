@@ -10,6 +10,11 @@ let ties=0;
 document.getElementsByClassName("pvp")[0].addEventListener("click", function(){ai=false; clear();});
 document.getElementsByClassName("ai")[0].addEventListener("click", function(){ai=true; clear();});
 
+let ivan=[100,100,1,
+        1,-1,-1,
+        -1,100,-1];
+getbestmove(ivan,-1);
+
 function clicked()
 {
     
@@ -173,6 +178,8 @@ function getbestmove(board, p)  //returns the position of the best move for play
             possiblemoves.push(x);
         }
     }
+    console.log(possiblemoves);
+    console.log(possiblevalues);
     if(possiblemoves.length==9)
         return parseInt(Math.random()*9);
 
@@ -211,7 +218,7 @@ function value(board, p, depth) ///returns the best value of the board if it's p
     {
         if(result==100)  //if this board is a tie condition, the value of this board is 0
             return 0;
-        return result-p*depth;   //returns the result of the board
+        return result;   //returns the result of the board
     }            
     
     if(p==1)                                               //current player is x
