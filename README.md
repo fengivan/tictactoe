@@ -13,5 +13,6 @@ Every round, AI calculates the list of best possible moves, and picks one random
 Note: AI does not differentiate between a move that guarantees a win in 1 turn vs a move that guarantees a win in 2 turns; both moves are equally valued.
 
 Can you beat the computer???
+https://fengivan.github.io/tictactoe/
 
 Created as a fun project using Javascript/CSS/HTML by Ivan Feng
