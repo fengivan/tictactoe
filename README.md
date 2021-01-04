@@ -1,6 +1,6 @@
 # tictactoe
 
-A simple Tic-Tac-Toe game with an AI feature
+A Tic-Tac-Toe game with an AI feature
 
 Human vs Human:
 X always goes first. Click any square to mark it as X. The next click will be O.
